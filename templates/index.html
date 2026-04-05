@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Notes App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<h1>📝 My Notes</h1>
+
+<!-- Add Note (Single Card Style) -->
+<div class="form-container">
+    <form method="POST" action="/add" class="note-form">
+        <input type="text" name="title" placeholder="Title" class="title-input">
+        <textarea name="content" placeholder="Take a note..." class="content-input" required></textarea>
+        <button type="submit">Add</button>
+    </form>
+</div>
+
+<!-- Notes -->
+<div class="notes-container">
+    {% for note in notes %}
+    <div class="note {% if note.pinned %}pinned{% endif %}">
+
+        <form method="POST" action="/edit/{{note.id}}">
+            <input type="text" name="title" value="{{note.title}}" class="title-input">
+            <textarea name="content" class="content-input">{{note.content}}</textarea>
+            <button type="submit" class="edit-btn">Save</button>
+        </form>
+
+        <div class="actions">
+            <a href="/pin/{{note.id}}" class="pin">📌</a>
+            <a href="/delete/{{note.id}}" class="delete">❌</a>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+</body>
+</html>
